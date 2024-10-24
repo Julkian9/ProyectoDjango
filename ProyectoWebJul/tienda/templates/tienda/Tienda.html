@@ -1,0 +1,66 @@
+{% extends "ProyectoWebA/Base.html" %}
+
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+
+  <div style="float: right;">
+    {%if request.user.is_authenticated %}
+
+    {% include "carro/widget.html" %}
+
+    {% else %}
+
+    <div style="left: 30px; top: 50px;" class="alert alert-danger text-center">Login para ver carro</div>
+
+    {% endif %}
+
+  </div>
+
+<div class="row">
+
+{% for producto in productos %}
+<div class="col-md-3">
+<div class="card" style="width: 100%; margin: 5px 5px;">
+<img src="{{producto.imagen.url}}" class="card-img-top">
+<div class="card-body" style="text-align: center;">
+<h7 class="card-title";>{{producto.nombre}}</h7>
+<p class="card-text" style="text-align: center;">{{producto.precio}}</p>
+</div> <!--card-body que se cierra-->
+
+<div class="card-footer text-center">
+  <a href="{% url 'carro:agregar' producto.id %}" class="btn btn-success" style="display: flex; justify-content: center;">Agregar al carro</a>
+</div>
+
+</div> <!--card que se cierra-->
+</div> <!--col que se cierra-->
+
+
+
+{% endfor %}
+      
+</div>
+</div>
+
+  <section>
+    <div style="width: 75%; margin: auto; text-align: center; color: azure;" >
+      
+        Categorias: 
+
+        {% for producto in productos %}
+
+          {% for categoria in producto.Categoria.all %}
+
+          <a href="{% url 'categoria' categoria.id %}" style="color: wheat;"> {{categoria.nombre}} </a> &nbsp;
+
+          {% endfor %}
+
+        {% endfor %}
+
+    </div>
+  </section>
+
+
+{% endblock %}
